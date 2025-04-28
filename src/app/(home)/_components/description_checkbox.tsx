@@ -5,6 +5,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
+import { academicResearchTerm } from "./content";
 
 export function renderNavigationMenu(string: string) {
   return (
@@ -13,7 +14,7 @@ export function renderNavigationMenu(string: string) {
         <NavigationMenuItem>
           <NavigationMenuTrigger>{"?"}</NavigationMenuTrigger>
           <NavigationMenuContent className="w-64 p-4 bg-white border border-gray-200 rounded-md shadow-lg">
-            <div className="text-sm text-gray-700 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+            <div className="bg-primary-foreground text-sm text-gray-700 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               {string}
             </div>
           </NavigationMenuContent>
@@ -23,19 +24,18 @@ export function renderNavigationMenu(string: string) {
   );
 }
 
-const academicResearchTerm = `
-    Ao participar desta pesquisa, você concorda que os dados fornecidos serão utilizados exclusivamente para fins acadêmicos, 
-    em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Garantimos que nenhuma informação será compartilhada 
-    com terceiros e que os dados serão tratados de forma anônima e segura.
-`;
-
-export function renderTermsCheckbox() {
+export function renderTermsConcientiCheckbox(
+  accepted: boolean,
+  setAccepted: (value: boolean) => void
+) {
   return (
     <div className="flex items-center space-x-2 mb-4">
       <input
         type="checkbox"
         id="terms-checkbox"
         required
+        checked={accepted}
+        onChange={(e) => setAccepted(e.target.checked)}
         style={{ width: "20px", height: "20px" }}
       ></input>
       <NavigationMenu>
