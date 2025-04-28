@@ -40,7 +40,7 @@ export function ProfileForm() {
       name: "",
       email: "",
       telefone: "",
-      idade: 0,
+      idade: undefined,
       genero: "feminino",
       diagnostico: "",
       funcionalidades: [],

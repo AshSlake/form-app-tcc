@@ -1,3 +1,8 @@
 {
-  "conventionalCommits.scopes": ["add form", "features", "first deploy"]
+  "conventionalCommits.scopes": [
+    "add form",
+    "features",
+    "first deploy",
+    "fixed"
+  ]
 }

@@ -34,8 +34,15 @@ export function renderFormField<T extends FieldValues>(
       <FormControl>
         {type === "select" && options ? (
           SelectPerso(placeholder, options)
-        ) : type === "text" || type === "number" || type === "email" ? (
+        ) : type === "text" || type === "email" ? (
           <Input type={type} placeholder={placeholder} {...field} />
+        ) : type === "number" ? (
+          <Input
+            type={"text"}
+            placeholder={placeholder}
+            {...field}
+            onChange={(e) => field.onChange(Number(e.target.value))}
+          />
         ) : (
           additionalContent
         )}
