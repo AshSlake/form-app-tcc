@@ -1,9 +1,18 @@
+/**
+ * Termo de consentimento utilizado na pesquisa acadêmica.
+ * Informa ao participante que seus dados serão usados apenas para fins acadêmicos
+ * e protegidos conforme a LGPD (Lei nº 13.709/2018).
+ */
 export const academicResearchTerm = `
     Ao participar desta pesquisa, você concorda que os dados fornecidos serão utilizados exclusivamente para fins acadêmicos, 
     em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Garantimos que nenhuma informação será compartilhada 
     com terceiros e que os dados serão tratados de forma anônima e segura.
 `;
 
+/**
+ * Opções de funcionalidades voltadas para terapeutas.
+ * Cada item descreve um recurso que pode ser útil na condução e acompanhamento das terapias.
+ */
 export const terapeutasOptions = [
   {
     value: "Monitoramento de Sintomas",
@@ -28,15 +37,19 @@ export const terapeutasOptions = [
   {
     value: "Galeria de Imagens",
     description:
-      "Permite o Terapeuta a tirar e enviar fotos do paciente para uma galeria do aplicativo, Podendo o Responsável visualizar as fotos.",
+      "Permite o Terapeuta a tirar e enviar fotos do paciente para uma galeria do aplicativo, podendo o responsável visualizar as fotos.",
   },
   {
     value: "Agenda de Consultas",
     description:
-      "Perimite que o terapeuta agenda as sessões do Paciente, facilitando o acomoanhamento dos dias e horários das consultas ou reposições das sessões.",
+      "Permite que o terapeuta agende as sessões do paciente, facilitando o acompanhamento dos dias e horários das consultas ou reposições das sessões.",
   },
 ];
 
+/**
+ * Opções de funcionalidades voltadas para pais ou responsáveis.
+ * Cada item descreve um recurso que visa facilitar o acompanhamento do tratamento.
+ */
 export const paisOptions = [
   {
     value: "graficos de evolução",
@@ -56,14 +69,18 @@ export const paisOptions = [
   {
     value: "Acesso a Arquivos",
     description:
-      "Permite que os pais ou Responsaveis possam acessar relatorios e arquivos enviados pelo terapeuta, facilitando o acompanhamento do tratamento.",
+      "Permite que os pais ou responsáveis possam acessar relatórios e arquivos enviados pelo terapeuta, facilitando o acompanhamento do tratamento.",
   },
 ];
 
+/**
+ * Funcionalidades nativas do aplicativo acessíveis por terapeutas.
+ * Essas funcionalidades são aplicáveis em um contexto mais amplo, como integração entre clínicas.
+ */
 export const funcionalidadesNativas = [
   {
     value: "relatorio compartilhado entre clinicas",
     description:
-      "Permite que o terapeuta compartilhe relatórios entre diferentes clínicas que tenham o Aplicativo, facilitando a continuidade do tratamento com diferentes Terapeutas.",
+      "Permite que o terapeuta compartilhe relatórios entre diferentes clínicas que tenham o aplicativo, facilitando a continuidade do tratamento com diferentes terapeutas.",
   },
 ];
