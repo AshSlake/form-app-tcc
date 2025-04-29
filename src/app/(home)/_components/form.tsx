@@ -18,12 +18,13 @@ import { renderFormField, renderTermsCheckbox } from "./formUtils";
 import { paisOptions, terapeutasOptions } from "./content";
 import React from "react";
 import { renderTermsConcientiCheckbox } from "./description_checkbox";
+import { FormService, FormValues } from "./submit";
 
 /**
  * Esquema de validação do formulário utilizando Zod.
  * Define os campos, tipos e regras de validação.
  */
-const formSchema = z.object({
+export const formSchema = z.object({
   /** Nome completo do usuário (obrigatório) */
   name: z.string().min(1, { message: "Nome é obrigatório" }),
   /** Email do usuário (obrigatório e validado) */
@@ -68,7 +69,7 @@ export function ProfileForm() {
       name: "",
       email: "",
       telefone: "",
-      idade: undefined,
+      idade: 0,
       genero: "feminino",
       diagnostico: "",
       funcionalidades: [],
@@ -77,13 +78,14 @@ export function ProfileForm() {
     },
   });
 
-  /**
-   * Função de submissão do formulário.
-   * @param {z.infer<typeof formSchema>} values - Valores do formulário validados
-   */
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    alert("Formulário enviado com sucesso!" + JSON.stringify(values, null, 2));
-  }
+  const onSubmit = async (values: FormValues) => {
+    const success = await FormService.submitForm(values);
+    if (success) {
+      // Exibe uma mensagem de sucesso ou redireciona o usuário
+      alert("Obrigado por participar da pesquisa!");
+      form.reset();
+    }
+  };
 
   return (
     <Form {...form}>
@@ -148,7 +150,7 @@ export function ProfileForm() {
           render={({ field }) =>
             renderFormField(
               field,
-              "Diagnóstico",
+              "Diagnóstico do Paciente",
               "Diagnóstico(opcional)",
               "text"
             )

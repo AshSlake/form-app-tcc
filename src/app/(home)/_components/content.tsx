@@ -6,6 +6,11 @@ export const academicResearchTerm = `
 
 export const terapeutasOptions = [
   {
+    value: "Monitoramento de Sintomas",
+    description:
+      "Registro diário de sintomas e comportamentos com gráficos evolutivos para identificar padrões e progressos.",
+  },
+  {
     value: "Registro de Sessões",
     description:
       "Permite que o terapeuta registre as sessões realizadas com o paciente, incluindo detalhes como data, duração e observações.",
