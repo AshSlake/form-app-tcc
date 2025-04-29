@@ -1,4 +1,6 @@
+import { Card } from "@/components/ui/card";
 import { ProfileForm } from "./_components/form";
+import { Separator } from "@/components/ui/separator";
 
 /**
  * Página inicial da pesquisa acadêmica.
@@ -14,36 +16,27 @@ const HomePage = () => {
   return (
     <div>
       {/* Seção de cabeçalho e informações */}
-      <div className="flex flex-col items-center justify-center space-y-4 p-4 text-center">
+      <Card className="w-full max-w-2xl mx-auto p-6 shadow-black rounded-lg space-y-4 justify-center ">
         {/* Título principal */}
-        <h1 className="text-4xl font-bold ">
-          <u>
-            Bem vindo à Pesquisa da Equipe
-            <br />
-            de Desenvolvimento da Etec
-          </u>
+        <h1 className="text-2xl font-bold justify-center items-center text-center">
+          <u>Bem vindo à Pesquisa da Equipe de Desenvolvimento da Etec</u>
         </h1>
 
         {/* Instruções para o usuário */}
-        <p className="font-medium text-gray-600">
-          Preencha o formulário abaixo para participar da pesquisa.
+        <p className="font-medium text-gray-800">
+          Olá! a equipe de desenvolvimento de sistemas da Etec está criando um
+          projeto para o TCC de um aplicativo de celular que ajudara no feedback
+          das sessões de Terapia de pessoas neurodivergentes e está pesquisa tem
+          como objetivo coletar a opnião dos Responsáveis/Profissionais sobre
+          funções e funcionalidades que eles achariam interessantes para o
+          aplicativo.
+          <br />
         </p>
+        <Separator className="my-4" />
 
-        {/* Aviso sobre uso dos dados */}
-        <p className="font-medium text-gray-600">
-          <u className="text-red-500 font-bold">
-            Os dados coletados serão utilizados apenas para fins acadêmicos!
-          </u>
-        </p>
-      </div>
-
-      <br />
-
-      {/* Container do formulário */}
-      <div className="space-y-6 p-6 w-full max-w-lg mx-auto bg-white rounded-lg shadow-md">
         {/* Componente do formulário de perfil */}
         <ProfileForm />
-      </div>
+      </Card>
     </div>
   );
 };

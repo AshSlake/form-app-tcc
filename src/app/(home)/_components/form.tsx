@@ -15,7 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { renderFormField, renderTermsCheckbox } from "./formUtils";
-import { paisOptions, terapeutasOptions } from "./content";
+import {
+  funcionalidadesNativas,
+  paisOptions,
+  terapeutasOptions,
+} from "./content";
 import React from "react";
 import { renderTermsConcientiCheckbox } from "./description_checkbox";
 import { FormService, FormValues } from "./submit";
@@ -31,7 +35,7 @@ export const formSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
   /** Telefone do usuário (opcional) */
   telefone: z.string().optional(),
-  /** Idade do usuário (obrigatória, mínimo 1 ano) */
+  /** Idade do usuário (opcional) */
   idade: z.number().min(1, { message: "Idade é obrigatória" }),
   /** Gênero do usuário (obrigatório, com opções pré-definidas) */
   genero: z.enum(["masculino", "feminino", "outro"], {
@@ -43,8 +47,12 @@ export const formSchema = z.object({
   funcionalidades: z.array(z.string()).optional(),
   /** Lista de funcionalidades de interesse para pais/responsáveis (opcional) */
   funcionalidadesPais: z.array(z.string()).optional(),
+  /** Funções nativas do Aplicativo */
+  funcionalidadesNativas: z.array(z.string()).optional(),
   /** Opinião ou comentários adicionais do entrevistado (opcional) */
   opiniaoEntrevistado: z.string().optional(),
+  /** Pergunta sobre acompanhamento  do aplivativo*/
+  acompanhamento: z.boolean().optional(),
 });
 
 /**
@@ -61,6 +69,7 @@ export const formSchema = z.object({
 export function ProfileForm() {
   // Estado para controlar a aceitação dos termos
   const [accepted, setAccepted] = React.useState(false);
+  const [acompanhamento, setAcompanhamento] = React.useState(false);
 
   // Inicialização do formulário com react-hook-form
   const form = useForm({
@@ -70,11 +79,13 @@ export function ProfileForm() {
       email: "",
       telefone: "",
       idade: 0,
-      genero: "feminino",
+      genero: undefined,
       diagnostico: "",
       funcionalidades: [],
       funcionalidadesPais: [],
+      funcionalidadesNativas: [],
       opiniaoEntrevistado: "",
+      acompanhamento: false,
     },
   });
 
@@ -125,7 +136,7 @@ export function ProfileForm() {
               "Gênero",
               "Gênero",
               "select",
-              <select {...field} className="form-select bg-secondary">
+              <select {...field} className="form-select">
                 <option value="masculino">Masculino</option>
                 <option value="feminino">Feminino</option>
                 <option value="outro">Outro</option>
@@ -139,7 +150,7 @@ export function ProfileForm() {
           control={form.control}
           name="telefone"
           render={({ field }) =>
-            renderFormField(field, "Telefone", "Telefone", "text")
+            renderFormField(field, "Telefone", "Telefone(Opcional)", "text")
           }
         />
 
@@ -164,7 +175,7 @@ export function ProfileForm() {
           render={({ field }) =>
             renderTermsCheckbox(
               field,
-              "Funcionalidades para Terapeutas",
+              "Funcionalidades para Terapeutas:",
               terapeutasOptions
             )
           }
@@ -177,8 +188,21 @@ export function ProfileForm() {
           render={({ field }) =>
             renderTermsCheckbox(
               field,
-              "Informações para Pais/Responsáveis",
+              "Informações para Responsáveis:",
               paisOptions
+            )
+          }
+        />
+
+        {/* Checkbox de funcionalidades nativas do aplicativo */}
+        <FormField
+          control={form.control}
+          name="funcionalidadesNativas"
+          render={({ field }) =>
+            renderTermsCheckbox(
+              field,
+              "Funcionalidades Nativas do Aplicativo:",
+              funcionalidadesNativas
             )
           }
         />
@@ -189,16 +213,50 @@ export function ProfileForm() {
           name="opiniaoEntrevistado"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Opinião do Entrevistado</FormLabel>
+              <FormLabel>Opinião do Entrevistado:</FormLabel>
+              <h3 className="text-sm text-gray-500 mb-2">
+                A alguma funcionalidades que gostaria de ter no aplicativo que
+                não estava nas opções acima? nos conte aqui:
+              </h3>
               <FormControl>
-                <Input {...field} className="w-full h-20" />
+                <Input
+                  {...field}
+                  className="w-full h-20 "
+                  placeholder="Escreva aqui sua Sugestão"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <br />
+        {/* Checkbox de acompanhamento do aplicativo */}
+        <FormField
+          control={form.control}
+          name="acompanhamento"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-2 mb-4">
+              <Input
+                type="checkbox"
+                id="acompanhamento-checkbox"
+                checked={acompanhamento}
+                onChange={(e) => {
+                  setAcompanhamento(e.target.checked);
+                  field.onChange(e.target.checked);
+                }}
+                style={{ width: "20px", height: "20px" }}
+                className="form-checkbox"
+              ></Input>
+              {/* Menu de navegação com os termos completos */}
+              <label htmlFor="acompanhamento-checkbox">
+                <h3 className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-2 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1">
+                  Você gostaria de acompanhar o desenvolvimento do aplicativo
+                  via E-mail e WhatsApp?
+                </h3>
+              </label>
+            </FormItem>
+          )}
+        />
 
         {/* Checkbox de termos e condições */}
         {renderTermsConcientiCheckbox(accepted, setAccepted)}

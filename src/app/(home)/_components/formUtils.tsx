@@ -70,7 +70,7 @@ export function renderTermsCheckbox<T extends FieldValues>(
 ) {
   return (
     <FormItem>
-      <FormLabel className="bg-primary-foreground">{label}</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <FormControl>
         <div className="flex flex-col space-y-2">
           {options.map((option) => (

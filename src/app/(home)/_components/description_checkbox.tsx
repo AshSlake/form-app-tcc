@@ -22,7 +22,7 @@ export function renderNavigationMenu(string: string) {
           <NavigationMenuTrigger type="button">{"?"}</NavigationMenuTrigger>
           {/* Conteúdo que aparece ao clicar no trigger */}
           <NavigationMenuContent className="w-64 p-4 bg-white border border-gray-200 rounded-md shadow-lg">
-            <div className="bg-primary-foreground text-sm text-gray-700 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+            <div className="text-sm text-gray-700 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               {string}
             </div>
           </NavigationMenuContent>
@@ -60,7 +60,7 @@ export function renderTermsConcientiCheckbox(
         <NavigationMenuList>
           <NavigationMenuItem>
             {/* Trigger com o texto dos termos */}
-            <NavigationMenuTrigger>
+            <NavigationMenuTrigger type="button">
               {"Aceito os termos de conscientização"}
             </NavigationMenuTrigger>
             {/* Conteúdo expandido com os termos acadêmicos */}
@@ -72,26 +72,6 @@ export function renderTermsConcientiCheckbox(
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-    </div>
-  );
-}
-
-/**
- * Componente de exemplo demonstrando o uso do menu de navegação.
- *
- * @returns {React.ReactElement} Exemplo de uso dos componentes
- */
-export function ExampleUsage() {
-  return (
-    <div>
-      <h1>Exemplo de Uso</h1>
-      <div>
-        <h2>Menu de Navegação</h2>
-        {/* Demonstração do menu de navegação com texto exemplo */}
-        {renderNavigationMenu(
-          "Este é um texto de exemplo para o menu de navegação."
-        )}
-      </div>
     </div>
   );
 }
