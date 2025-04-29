@@ -24,6 +24,7 @@ import React from "react";
 import { renderTermsConcientiCheckbox } from "./description_checkbox";
 import { FormService, FormValues } from "./submit";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 
 /**
  * Esquema de validação do formulário utilizando Zod.
@@ -229,6 +230,8 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
+
+        <Separator className="my-4 bg-black shadow-2xl" />
 
         {/* Checkbox de acompanhamento do aplicativo */}
         <FormField
