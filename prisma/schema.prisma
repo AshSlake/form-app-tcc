@@ -8,17 +8,17 @@ datasource db {
 }
 
 model Pesquisa {
-  id                     Int       @id @default(autoincrement())
-  nome                   String
-  email                  String    @unique
-  telefone               String?
-  idade                  Int
-  genero                 String
-  diagnostico            String?
-  funcionalidades        String[]
-  funcionalidadesPais    String[]
-  opiniaoEntrevistado    String?
-  acompanharDesenvolvimento Boolean @default(false)
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
+  id                        Int      @id @default(autoincrement())
+  nome                      String
+  email                     String   @unique
+  telefone                  String?  @unique
+  idade                     Int
+  genero                    String
+  diagnostico               String?
+  funcionalidades           String[]
+  funcionalidadesPais       String[]
+  opiniaoEntrevistado       String?
+  acompanharDesenvolvimento Boolean  @default(false)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
 }

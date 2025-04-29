@@ -25,6 +25,7 @@ import { renderTermsConcientiCheckbox } from "./description_checkbox";
 import { FormService, FormValues } from "./submit";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
 
 /**
  * Esquema de validação do formulário utilizando Zod.
@@ -71,31 +72,32 @@ export const formSchema = z.object({
 export function ProfileForm() {
   // Estado para controlar a aceitação dos termos
   const [accepted, setAccepted] = React.useState(false);
+  const router = useRouter();
 
   // Inicialização do formulário com react-hook-form
+  const defaultValues: FormValues = {
+    name: "",
+    email: "",
+    telefone: "",
+    idade: 0,
+    genero: "masculino",
+    diagnostico: "",
+    funcionalidades: [],
+    funcionalidadesPais: [],
+    funcionalidadesNativas: [],
+    opiniaoEntrevistado: "",
+    acompanhamento: false,
+  };
+
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      telefone: "",
-      idade: 0,
-      genero: "masculino",
-      diagnostico: "",
-      funcionalidades: [],
-      funcionalidadesPais: [],
-      funcionalidadesNativas: [],
-      acompanhamento: false,
-      opiniaoEntrevistado: "",
-    },
+    defaultValues,
   });
 
   const onSubmit = async (values: FormValues) => {
     const success = await FormService.submitForm(values);
     if (success) {
-      // Exibe uma mensagem de sucesso ou redireciona o usuário
-      alert("Obrigado por participar da pesquisa!");
-      form.reset();
+      router.push("/obrigado");
     }
   };
 

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import prisma from "@/app/_data/prisma"; // importa o prisma
+import prisma from "@/app/_data/prisma";
+import { Prisma } from "@prisma/client"; // importa tipos do Prisma
 
 export async function POST(request: Request) {
   try {
@@ -7,12 +8,11 @@ export async function POST(request: Request) {
 
     if (!data.name || !data.email) {
       return NextResponse.json(
-        { error: "Nome e email são obrigatórios" },
+        { message: "Nome e email são obrigatórios" },
         { status: 400 }
       );
     }
 
-    // Aqui você salva no banco de dados
     const pesquisaCriada = await prisma.pesquisa.create({
       data: {
         nome: data.name,
@@ -33,9 +33,31 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
+    // Tratamento de erro P2002 (duplicação)
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target as string[] | undefined;
+
+      if (target?.includes("email")) {
+        return NextResponse.json(
+          { message: "Email já cadastrado" },
+          { status: 409 }
+        );
+      }
+
+      if (target?.includes("telefone")) {
+        return NextResponse.json(
+          { message: "Telefone já cadastrado" },
+          { status: 409 }
+        );
+      }
+    }
+
     console.error("Erro no backend:", error);
     return NextResponse.json(
-      { error: "Erro de processamento" },
+      { message: "Erro de processamento" },
       { status: 500 }
     );
   }

@@ -10,6 +10,7 @@ CREATE TABLE "Pesquisa" (
     "funcionalidades" TEXT[],
     "funcionalidadesPais" TEXT[],
     "opiniaoEntrevistado" TEXT,
+    "acompanharDesenvolvimento" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -18,3 +19,6 @@ CREATE TABLE "Pesquisa" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Pesquisa_email_key" ON "Pesquisa"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Pesquisa_telefone_key" ON "Pesquisa"("telefone");
