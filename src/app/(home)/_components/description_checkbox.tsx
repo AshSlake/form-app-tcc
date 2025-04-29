@@ -12,7 +12,7 @@ export function renderNavigationMenu(string: string) {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>{"?"}</NavigationMenuTrigger>
+          <NavigationMenuTrigger type="button">{"?"}</NavigationMenuTrigger>
           <NavigationMenuContent className="w-64 p-4 bg-white border border-gray-200 rounded-md shadow-lg">
             <div className="bg-primary-foreground text-sm text-gray-700 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               {string}
