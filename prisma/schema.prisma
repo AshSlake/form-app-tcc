@@ -18,6 +18,7 @@ model Pesquisa {
   funcionalidades        String[]
   funcionalidadesPais    String[]
   opiniaoEntrevistado    String?
+  acompanharDesenvolvimento Boolean @default(false)
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 }
