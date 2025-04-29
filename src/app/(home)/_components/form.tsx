@@ -80,7 +80,7 @@ export function ProfileForm() {
       email: "",
       telefone: "",
       idade: 0,
-      genero: undefined,
+      genero: "masculino",
       diagnostico: "",
       funcionalidades: [],
       funcionalidadesPais: [],
@@ -169,6 +169,13 @@ export function ProfileForm() {
           }
         />
 
+        <h3 className="text-sm text-gray-500 mb-2 bg-purple-200 p-2 rounded-md">
+          Logo abaixo estão algumas funcionabildiades que a equipe de
+          desenvolvimento achou que poderiam ser interessantes, por favor
+          selecione as que você gostaria de ver no aplicativo:
+        </h3>
+        <br />
+
         {/* Checkbox de funcionalidades para terapeutas */}
         <FormField
           control={form.control}
@@ -215,7 +222,7 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Opinião do Entrevistado:</FormLabel>
-              <h3 className="text-sm text-gray-500 mb-2">
+              <h3 className="text-sm text-gray-500 mb-2 bg-purple-200 p-2 rounded-md">
                 A alguma funcionalidades que gostaria de ter no aplicativo que
                 não estava nas opções acima? nos conte aqui:
               </h3>

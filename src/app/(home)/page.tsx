@@ -16,7 +16,10 @@ const HomePage = () => {
   return (
     <div>
       {/* Seção de cabeçalho e informações */}
-      <Card className="w-full max-w-2xl mx-auto p-6 shadow-black rounded-lg space-y-4 justify-center ">
+      <Card
+        className="w-full max-w-2xl mx-auto p-6 shadow-black rounded-lg space-y-4 justify-center"
+        style={{ backgroundColor: "#F5F5F5" }}
+      >
         <Card className="bg-purple-200 p-4 rounded-lg shadow-md space-y-4">
           {/* Título principal */}
           <h1 className="text-2xl font-bold justify-center items-center text-center">
