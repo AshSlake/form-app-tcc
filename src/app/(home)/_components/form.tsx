@@ -18,22 +18,50 @@ import { renderFormField, renderTermsCheckbox } from "./formUtils";
 import { paisOptions, terapeutasOptions } from "./content";
 import React from "react";
 import { renderTermsConcientiCheckbox } from "./description_checkbox";
+
+/**
+ * Esquema de validação do formulário utilizando Zod.
+ * Define os campos, tipos e regras de validação.
+ */
 const formSchema = z.object({
+  /** Nome completo do usuário (obrigatório) */
   name: z.string().min(1, { message: "Nome é obrigatório" }),
+  /** Email do usuário (obrigatório e validado) */
   email: z.string().email({ message: "Email inválido" }),
+  /** Telefone do usuário (opcional) */
   telefone: z.string().optional(),
+  /** Idade do usuário (obrigatória, mínimo 1 ano) */
   idade: z.number().min(1, { message: "Idade é obrigatória" }),
+  /** Gênero do usuário (obrigatório, com opções pré-definidas) */
   genero: z.enum(["masculino", "feminino", "outro"], {
     required_error: "Gênero é obrigatório",
   }),
+  /** Diagnóstico médico (opcional) */
   diagnostico: z.string().optional(),
+  /** Lista de funcionalidades de interesse para terapeutas (opcional) */
   funcionalidades: z.array(z.string()).optional(),
+  /** Lista de funcionalidades de interesse para pais/responsáveis (opcional) */
   funcionalidadesPais: z.array(z.string()).optional(),
+  /** Opinião ou comentários adicionais do entrevistado (opcional) */
   opiniaoEntrevistado: z.string().optional(),
 });
 
+/**
+ * Componente de formulário de perfil com validação.
+ *
+ * Este componente implementa um formulário completo com:
+ * - Validação de campos utilizando Zod
+ * - Renderização dinâmica de campos
+ * - Termos de consentimento
+ * - Controle de estado do formulário
+ *
+ * @returns {React.ReactElement} O componente de formulário de perfil
+ */
 export function ProfileForm() {
+  // Estado para controlar a aceitação dos termos
   const [accepted, setAccepted] = React.useState(false);
+
+  // Inicialização do formulário com react-hook-form
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,6 +77,10 @@ export function ProfileForm() {
     },
   });
 
+  /**
+   * Função de submissão do formulário.
+   * @param {z.infer<typeof formSchema>} values - Valores do formulário validados
+   */
   function onSubmit(values: z.infer<typeof formSchema>) {
     alert("Formulário enviado com sucesso!" + JSON.stringify(values, null, 2));
   }
@@ -56,11 +88,14 @@ export function ProfileForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Campo Nome */}
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => renderFormField(field, "Nome", "Nome", "text")}
         />
+
+        {/* Campo Email */}
         <FormField
           control={form.control}
           name="email"
@@ -68,6 +103,8 @@ export function ProfileForm() {
             renderFormField(field, "Email", "Email", "email")
           }
         />
+
+        {/* Campo Idade */}
         <FormField
           control={form.control}
           name="idade"
@@ -75,6 +112,8 @@ export function ProfileForm() {
             renderFormField(field, "Idade", "Idade", "number")
           }
         />
+
+        {/* Campo Gênero (select) */}
         <FormField
           control={form.control}
           name="genero"
@@ -92,6 +131,8 @@ export function ProfileForm() {
             )
           }
         />
+
+        {/* Campo Telefone */}
         <FormField
           control={form.control}
           name="telefone"
@@ -99,6 +140,8 @@ export function ProfileForm() {
             renderFormField(field, "Telefone", "Telefone", "text")
           }
         />
+
+        {/* Campo Diagnóstico (opcional) */}
         <FormField
           control={form.control}
           name="diagnostico"
@@ -112,6 +155,7 @@ export function ProfileForm() {
           }
         />
 
+        {/* Checkbox de funcionalidades para terapeutas */}
         <FormField
           control={form.control}
           name="funcionalidades"
@@ -123,6 +167,8 @@ export function ProfileForm() {
             )
           }
         />
+
+        {/* Checkbox de informações para pais/responsáveis */}
         <FormField
           control={form.control}
           name="funcionalidadesPais"
@@ -135,6 +181,7 @@ export function ProfileForm() {
           }
         />
 
+        {/* Campo de texto para opinião do entrevistado */}
         <FormField
           control={form.control}
           name="opiniaoEntrevistado"
@@ -148,8 +195,13 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
+
         <br />
+
+        {/* Checkbox de termos e condições */}
         {renderTermsConcientiCheckbox(accepted, setAccepted)}
+
+        {/* Botão de submissão (desabilitado até aceitar os termos) */}
         <Button
           type="submit"
           disabled={!accepted}
