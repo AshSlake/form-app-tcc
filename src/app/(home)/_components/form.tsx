@@ -23,6 +23,7 @@ import {
 import React from "react";
 import { renderTermsConcientiCheckbox } from "./description_checkbox";
 import { FormService, FormValues } from "./submit";
+import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Esquema de validação do formulário utilizando Zod.
@@ -69,7 +70,6 @@ export const formSchema = z.object({
 export function ProfileForm() {
   // Estado para controlar a aceitação dos termos
   const [accepted, setAccepted] = React.useState(false);
-  const [acompanhamento, setAcompanhamento] = React.useState(false);
 
   // Inicialização do formulário com react-hook-form
   const form = useForm({
@@ -84,8 +84,8 @@ export function ProfileForm() {
       funcionalidades: [],
       funcionalidadesPais: [],
       funcionalidadesNativas: [],
-      opiniaoEntrevistado: "",
       acompanhamento: false,
+      opiniaoEntrevistado: "",
     },
   });
 
@@ -235,25 +235,21 @@ export function ProfileForm() {
           control={form.control}
           name="acompanhamento"
           render={({ field }) => (
-            <FormItem className="flex items-center space-x-2 mb-4">
-              <Input
-                type="checkbox"
-                id="acompanhamento-checkbox"
-                checked={acompanhamento}
-                onChange={(e) => {
-                  setAcompanhamento(e.target.checked);
-                  field.onChange(e.target.checked);
-                }}
-                style={{ width: "20px", height: "20px" }}
-                className="form-checkbox"
-              ></Input>
-              {/* Menu de navegação com os termos completos */}
-              <label htmlFor="acompanhamento-checkbox">
-                <h3 className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-2 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1">
-                  Você gostaria de acompanhar o desenvolvimento do aplicativo
-                  via E-mail e WhatsApp?
-                </h3>
-              </label>
+            <FormItem className="flex items-center mb-4">
+              <FormControl>
+                {/* Exemplo com Radix/Shadcn */}
+                <Checkbox
+                  id="acompanhamento-checkbox"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                />
+              </FormControl>
+              <FormLabel htmlFor="acompanhamento-checkbox" className="ml-2">
+                Você gostaria de acompanhar o desenvolvimento do aplicativo via
+                E-mail e WhatsApp?
+              </FormLabel>
+              <FormMessage />
             </FormItem>
           )}
         />

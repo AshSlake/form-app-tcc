@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { renderNavigationMenu } from "./description_checkbox";
 import { SelectPerso } from "./select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Renderiza um campo de formulário com suporte para vários tipos de entrada, incluindo texto, número, email e select.
@@ -75,16 +76,14 @@ export function renderTermsCheckbox<T extends FieldValues>(
         <div className="flex flex-col space-y-2">
           {options.map((option) => (
             <Label key={option.value} className="flex items-center space-x-2">
-              <Input
-                type="checkbox"
-                style={{ width: "25px", height: "20px" }}
+              <Checkbox
                 value={option.value}
                 checked={field.value.includes(option.value) || false}
-                onChange={(e) => {
-                  const newValue = e.target.checked
-                    ? [...(field.value || []), e.target.value]
+                onCheckedChange={(checked) => {
+                  const newValue = checked
+                    ? [...(field.value || []), option.value]
                     : (field.value || []).filter(
-                        (v: string) => v !== e.target.value
+                        (v: string) => v !== option.value
                       );
                   field.onChange(newValue);
                 }}

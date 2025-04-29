@@ -24,6 +24,7 @@ export async function POST(request: Request) {
         funcionalidades: data.funcionalidades,
         funcionalidadesPais: data.funcionalidadesPais,
         opiniaoEntrevistado: data.opiniaoEntrevistado,
+        acompanharDesenvolvimento: data.acompanhamento,
       },
     });
 

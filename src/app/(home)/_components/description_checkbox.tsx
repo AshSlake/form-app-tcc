@@ -6,6 +6,7 @@ import {
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
 import { academicResearchTerm } from "./content";
+import { Checkbox } from "@/components/ui/checkbox";
 
 /**
  * Componente que renderiza um menu de navegação com conteúdo informativo.
@@ -46,14 +47,11 @@ export function renderTermsConcientiCheckbox(
   return (
     <div className="flex items-center space-x-2 mb-4">
       {/* Checkbox de aceitação */}
-      <input
-        type="checkbox"
+      <Checkbox
         id="terms-checkbox"
-        required
         checked={accepted}
-        onChange={(e) => setAccepted(e.target.checked)}
-        style={{ width: "20px", height: "20px" }}
-      ></input>
+        onCheckedChange={(value) => setAccepted(!!value)}
+      />
 
       {/* Menu de navegação com os termos completos */}
       <NavigationMenu>
