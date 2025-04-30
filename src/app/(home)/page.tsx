@@ -28,7 +28,7 @@ const HomePage = () => {
 
           {/* Instruções para o usuário */}
           <p className="font-medium text-gray-800 text-center">
-            Olá! a equipe de desenvolvimento de sistemas da Etec está criando um
+            Olá! a equipe de desenvolvimento de sistemas da Etec esta criando um
             projeto para o TCC de um aplicativo de celular que ajudara no
             feedback das sessões de Terapia de pessoas neurodivergentes e está
             pesquisa tem como objetivo coletar a opnião dos
