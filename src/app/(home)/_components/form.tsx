@@ -15,10 +15,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { renderFormField, renderTermsCheckbox } from "./formUtils";
-import { paisOptions, terapeutasOptions } from "./content";
+import {
+  funcionalidadesNativas,
+  paisOptions,
+  terapeutasOptions,
+} from "./content";
 import React from "react";
 import { renderTermsConcientiCheckbox } from "./description_checkbox";
-const formSchema = z.object({
+import { FormService, FormValues } from "./submit";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
+
+/**
+ * Esquema de validação do formulário utilizando Zod.
+ * Define os campos, seus tipos e as regras de validação obrigatórias e opcionais.
+ */
+export const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
   email: z.string().email({ message: "Email inválido" }),
   telefone: z.string().optional(),
@@ -29,38 +42,67 @@ const formSchema = z.object({
   diagnostico: z.string().optional(),
   funcionalidades: z.array(z.string()).optional(),
   funcionalidadesPais: z.array(z.string()).optional(),
+  funcionalidadesNativas: z.array(z.string()).optional(),
   opiniaoEntrevistado: z.string().optional(),
+  acompanhamento: z.boolean().optional(),
 });
 
+/**
+ * Componente principal do formulário de perfil.
+ *
+ * Funcionalidades:
+ * - Usa react-hook-form com Zod para validação.
+ * - Campos obrigatórios e opcionais bem definidos.
+ * - Checkboxes customizados com múltiplas seleções.
+ * - Submissão envia os dados e redireciona para página de agradecimento.
+ */
 export function ProfileForm() {
-  const [accepted, setAccepted] = React.useState(false);
+  const [accepted, setAccepted] = React.useState(false); // Controle do checkbox de aceite
+  const router = useRouter(); // Hook de navegação do Next.js
+
+  // Valores padrão para o formulário
+  const defaultValues: FormValues = {
+    name: "",
+    email: "",
+    telefone: "",
+    idade: 0,
+    genero: "masculino",
+    diagnostico: "",
+    funcionalidades: [],
+    funcionalidadesPais: [],
+    funcionalidadesNativas: [],
+    opiniaoEntrevistado: "",
+    acompanhamento: false,
+  };
+
+  // Inicialização do formulário com validação Zod
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      telefone: "",
-      idade: undefined,
-      genero: "feminino",
-      diagnostico: "",
-      funcionalidades: [],
-      funcionalidadesPais: [],
-      opiniaoEntrevistado: "",
-    },
+    defaultValues,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    alert("Formulário enviado com sucesso!" + JSON.stringify(values, null, 2));
-  }
+  /**
+   * Função chamada ao submeter o formulário.
+   * Se a submissão for bem-sucedida, redireciona para a página "/obrigado".
+   */
+  const onSubmit = async (values: FormValues) => {
+    const success = await FormService.submitForm(values);
+    if (success) {
+      router.push("/obrigado"); // Redirecionamento após envio
+    }
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Nome completo */}
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => renderFormField(field, "Nome", "Nome", "text")}
         />
+
+        {/* Email */}
         <FormField
           control={form.control}
           name="email"
@@ -68,6 +110,8 @@ export function ProfileForm() {
             renderFormField(field, "Email", "Email", "email")
           }
         />
+
+        {/* Idade */}
         <FormField
           control={form.control}
           name="idade"
@@ -75,6 +119,8 @@ export function ProfileForm() {
             renderFormField(field, "Idade", "Idade", "number")
           }
         />
+
+        {/* Gênero (select) */}
         <FormField
           control={form.control}
           name="genero"
@@ -84,7 +130,7 @@ export function ProfileForm() {
               "Gênero",
               "Gênero",
               "select",
-              <select {...field} className="form-select bg-secondary">
+              <select {...field} className="form-select">
                 <option value="masculino">Masculino</option>
                 <option value="feminino">Feminino</option>
                 <option value="outro">Outro</option>
@@ -92,64 +138,129 @@ export function ProfileForm() {
             )
           }
         />
+
+        {/* Telefone (opcional) */}
         <FormField
           control={form.control}
           name="telefone"
           render={({ field }) =>
-            renderFormField(field, "Telefone", "Telefone", "text")
+            renderFormField(field, "Telefone", "Telefone(Opcional)", "text")
           }
         />
+
+        {/* Diagnóstico médico (opcional) */}
         <FormField
           control={form.control}
           name="diagnostico"
           render={({ field }) =>
             renderFormField(
               field,
-              "Diagnóstico",
+              "Diagnóstico do Paciente",
               "Diagnóstico(opcional)",
               "text"
             )
           }
         />
 
+        {/* Texto explicativo para funcionalidades */}
+        <h3 className="text-sm text-gray-500 mb-2 bg-purple-200 p-2 rounded-md">
+          Logo abaixo estão algumas funcionabildiades que a equipe de
+          desenvolvimento achou que poderiam ser interessantes. Por favor,
+          selecione as que você gostaria de ver no aplicativo:
+        </h3>
+
+        {/* Funcionalidades para terapeutas (checkbox múltipla) */}
         <FormField
           control={form.control}
           name="funcionalidades"
           render={({ field }) =>
             renderTermsCheckbox(
               field,
-              "Funcionalidades para Terapeutas",
+              "Funcionalidades para Terapeutas:",
               terapeutasOptions
             )
           }
         />
+
+        {/* Funcionalidades para responsáveis (checkbox múltipla) */}
         <FormField
           control={form.control}
           name="funcionalidadesPais"
           render={({ field }) =>
             renderTermsCheckbox(
               field,
-              "Informações para Pais/Responsáveis",
+              "Informações para Responsáveis:",
               paisOptions
             )
           }
         />
 
+        {/* Funcionalidades nativas (checkbox múltipla) */}
+        <FormField
+          control={form.control}
+          name="funcionalidadesNativas"
+          render={({ field }) =>
+            renderTermsCheckbox(
+              field,
+              "Funcionalidades Nativas do Aplicativo:",
+              funcionalidadesNativas
+            )
+          }
+        />
+
+        {/* Campo de sugestão livre (opcional) */}
         <FormField
           control={form.control}
           name="opiniaoEntrevistado"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Opinião do Entrevistado</FormLabel>
+              <FormLabel>Opinião do Entrevistado:</FormLabel>
+              <h3 className="text-sm text-gray-500 mb-2 bg-purple-200 p-2 rounded-md">
+                Alguma funcionalidade que gostaria de ver no app e que não está
+                listada? Conte aqui:
+              </h3>
               <FormControl>
-                <Input {...field} className="w-full h-20" />
+                <Input
+                  {...field}
+                  className="w-full h-20"
+                  placeholder="Escreva aqui sua sugestão"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <br />
+
+        {/* Separador visual */}
+        <Separator className="my-4 bg-black shadow-2xl" />
+
+        {/* Desejo de acompanhamento do projeto */}
+        <FormField
+          control={form.control}
+          name="acompanhamento"
+          render={({ field }) => (
+            <FormItem className="flex items-center mb-4">
+              <FormControl>
+                <Checkbox
+                  id="acompanhamento-checkbox"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                />
+              </FormControl>
+              <FormLabel htmlFor="acompanhamento-checkbox" className="ml-2">
+                Você gostaria de acompanhar o desenvolvimento do aplicativo via
+                E-mail e WhatsApp?
+              </FormLabel>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Termos de consentimento */}
         {renderTermsConcientiCheckbox(accepted, setAccepted)}
+
+        {/* Botão de envio, só habilitado quando os termos forem aceitos */}
         <Button
           type="submit"
           disabled={!accepted}
